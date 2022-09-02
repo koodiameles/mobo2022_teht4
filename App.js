@@ -1,60 +1,45 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Button, Alert, TextInput, Image, Text, FlatList} from 'react-native';
+import { StyleSheet, View, Button, TextInput, Text, FlatList} from 'react-native';
 
 export default function App() {
 
-  const [number1, setNumber1] = useState("");
-  const [number2, setNumber2] = useState("");
-  const [result, setResult] = useState("");
-  const [calculatorHistory, setCalculatorHistory] = useState([]);
+  const [shoppingListItem, setShoppingListItem] = useState("");
+  const [shoppingList, setShoppingList] = useState([]);
 
-  // console.log("render")
-  // console.log(calculatorHistory)
-
-  const calculate = (symbol) => {
-    if (symbol === "+") {
-      let summation = Number(number1) + Number(number2);
-      setResult(summation);
-      let calculation = `${number1} + ${number2} = ${summation}`;
-      setCalculatorHistory([...calculatorHistory, calculation]);
-      setNumber1("")
-      setNumber2("")
-    }
-    if (symbol === "-") {
-      let deduction = Number(number1) - Number(number2);
-      setResult(deduction)
-      let calculation = `${number1} - ${number2} = ${deduction}`;
-      setCalculatorHistory([...calculatorHistory, calculation]);
-      setNumber1("")
-      setNumber2("")
-    }
+  const addItemToShoppingList = () => {
+    let newItem = shoppingListItem;
+    setShoppingList([...shoppingList, newItem ])
+    setShoppingListItem("")
   }
+
+  const clearShoppingList = () => {
+    setShoppingList([]);
+  }
+  // console.log("render")
 
   return (
     <>
       <View style={styles.containerHeader}>
-        <Text style={styles.assignemtHeaderText}>TEHT 3 LASKIN HISTORIALLA</Text>
+        <Text style={styles.assignmentHeaderText}>TEHT 4 OSTOSLISTA</Text>
       </View>
       <View style={styles.container}>
-        <Text style={{color:"white"}}>Result: {result}</Text>
-        <TextInput keyboardType="numeric" style={styles.input} onChangeText={setNumber1} value={number1}/>
-        <TextInput keyboardType="numeric" style={styles.input} onChangeText={setNumber2} value={number2}/>
+        <TextInput style={styles.input} onChangeText={setShoppingListItem} value={shoppingListItem}/>
         <View style={{display: 'flex', flexDirection: 'row', margin: 10}}>
           <View style={{flex: 1, marginHorizontal: 20}}>
-            <Button color="green" onPress={() => calculate("+")} title="+" />
+            <Button color="green" onPress={() => addItemToShoppingList()} title="Add" />
           </View>
           <View style={{flex: 1, marginHorizontal: 20}}>
-            <Button color="red" onPress={() => calculate("-")} title="-" />
+            <Button color="red" onPress={() => clearShoppingList()} title="Clear" />
           </View>
         </View>
         <StatusBar style="auto" />
       </View>
       <View style={styles.container}>
-        <Text style={{color:"white"}}>HISTORY</Text>
+        <Text style={{color:"#6495ED", fontSize:24}}>SHOPPING LIST</Text>
         <FlatList 
           style={styles.list}
-          data={calculatorHistory}
+          data={shoppingList}
           renderItem={({ item }) => <Text style={{color:"white"}}>{item}</Text>}
         />
       </View>
@@ -79,20 +64,16 @@ const styles = StyleSheet.create({
     // color:"white",
     // justifyContent: 'start',
   },
-  image : {
-    width: 250,
-    height: 100
-  },
   input : {
-    width:200  , 
+    width:"80%", 
     borderColor: 'gray', 
     borderWidth: 1,
     margin: 5,
     color:"white",
   },
-  assignemtHeaderText: {
+  assignmentHeaderText: {
     fontSize: 40,
-    color: "white"
+    color:"#6495ED",
   }
 });
  
